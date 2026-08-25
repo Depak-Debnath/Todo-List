@@ -14,27 +14,40 @@ const addCard = (todo, index) => {
 };
 
 const addTodoList = () => {
-  if (inputValue.value == "") {
+  const todo = inputValue.value.trim();
+
+  if (todo == "") {
     alert("Please add some task!!");
-  } else {
-    let localTodoLists =
-      JSON.parse(localStorage.getItem("localTodoLists")) || [];
-
-    // if (!Array.isArray(localTodoLists)) {
-    //   localTodoLists = [];
-    // }
-
-    localTodoLists.push(inputValue.value);
-
-    localStorage.setItem("localTodoLists", JSON.stringify(localTodoLists));
-
-    // console.log(localTodoLists);
-
-    showTodoList();
-
-    inputValue.value = "";
-    inputValue.focus();
+    return;
   }
+
+  let localTodoLists = JSON.parse(localStorage.getItem("localTodoLists")) || [];
+
+  // Check for duplicate
+    if (localTodoLists.includes(todo)) {
+
+        alert("This task already exists!");
+
+        inputValue.value = "";
+        inputValue.focus();
+
+        return;
+    }
+
+  // if (!Array.isArray(localTodoLists)) {
+  //   localTodoLists = [];
+  // }
+
+  localTodoLists.push(todo);
+
+  localStorage.setItem("localTodoLists", JSON.stringify(localTodoLists));
+
+  // console.log(localTodoLists);
+
+  showTodoList();
+
+  inputValue.value = "";
+  inputValue.focus();
 };
 
 function addDeleteEvents() {
